@@ -1,11 +1,27 @@
 import style from './App.module.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MainPage from "./pages/Main/main";
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import LandscapeIcon from '@mui/icons-material/Landscape';
 import SportsIcon from '@mui/icons-material/Sports';
 import {Tooltip, Zoom} from "@mui/material";
+import Popup from "reactjs-popup";
+import 'reactjs-popup/dist/index.css';
+import styled from "styled-components";
+import EventPage from "./pages/Event/eventpage";
+
+const CopyRightModal = styled(Popup)`
+    &-overlay {
+        background-color: rgba(0, 0, 0, 0.85);
+    },
+    
+    &-content {
+        background-color: transparent;
+        border: none;
+        -webkit-animation: anvil .5s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+    }
+`
 
 const IconsSlotProps = {
     arrow: {
@@ -28,6 +44,8 @@ function nameToPage(name) {
     switch (name) {
         case "main":
             return <MainPage />;
+        case "rali":
+            return <EventPage category={"rali"} event={"porto2023"}/>;
         default:
             return <MainPage />;
     }
@@ -35,6 +53,19 @@ function nameToPage(name) {
 
 function App() {
     const [page, setPage] = useState("main");
+    const [copyRightModalOpen, setCopyRightModalOpen] = useState(false);
+
+    useEffect(() => {
+        const handleContextMenu = e => {
+            e.preventDefault();
+            setCopyRightModalOpen(true);
+        }
+
+        document.addEventListener("contextmenu", handleContextMenu);
+        return function cleanup() {
+            document.removeEventListener("contextmenu", handleContextMenu);
+        }
+    }, []);
 
     return (
         <div>
@@ -47,7 +78,7 @@ function App() {
                         TransitionComponent={Zoom}
                         slotProps={IconsSlotProps}
                     >
-                        <p onClick={() => setPage("main")}>
+                        <p onClick={() => setPage("portofolio")}>
                             <PhotoLibraryIcon className={style.navbarPagesIcon}/>
                         </p>
                     </Tooltip>
@@ -59,7 +90,7 @@ function App() {
                         TransitionComponent={Zoom}
                         slotProps={IconsSlotProps}
                     >
-                        <p onClick={() => setPage("about")}>
+                        <p onClick={() => setPage("rali")}>
                             <DriveEtaIcon className={style.navbarPagesIcon}/>
                         </p>
                     </Tooltip>
@@ -71,7 +102,7 @@ function App() {
                         TransitionComponent={Zoom}
                         slotProps={IconsSlotProps}
                     >
-                        <p onClick={() => setPage("portfolio")}>
+                        <p onClick={() => setPage("natureza")}>
                             <LandscapeIcon className={style.navbarPagesIcon}/>
                         </p>
                     </Tooltip>
@@ -83,7 +114,7 @@ function App() {
                         TransitionComponent={Zoom}
                         slotProps={IconsSlotProps}
                     >
-                        <p onClick={() => setPage("contact")}>
+                        <p onClick={() => setPage("desporto")}>
                             <SportsIcon className={style.navbarPagesIcon}/>
                         </p>
                     </Tooltip>
@@ -105,6 +136,12 @@ function App() {
             <div className={style.content}>
                 {nameToPage(page)}
             </div>
+
+            <CopyRightModal open={copyRightModalOpen} onClose={() => setCopyRightModalOpen(false)}>
+                <div style={{display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center"}}>
+                    <p style={{color: "white", fontSize: "23px", fontFamily: "acme, sans", fontWeight: "bold"}}>O conteúdo desta página é protegido. Por esse motivo, o Right-Click está desativado.<br/>Caso queira alguma foto contacte-nos nas redes sociais.</p>
+                </div>
+            </CopyRightModal>
         </div>
     );
 }

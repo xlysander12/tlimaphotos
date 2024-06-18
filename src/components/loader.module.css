@@ -1,0 +1,23 @@
+.loaderDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+
+.loader {
+    width: 500px;
+    object-fit: cover;
+    animation: spin 4.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
