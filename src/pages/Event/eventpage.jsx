@@ -3,7 +3,7 @@ import style from "./eventpage.module.css";
 import Popup from "reactjs-popup";
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
-import Loader from "../../components/Loader";
+import Loader from "../../components/Loader/loader";
 
 const ImagePopup = styled(Popup)`
     &-overlay {

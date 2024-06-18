@@ -10,6 +10,7 @@ import Popup from "reactjs-popup";
 import 'reactjs-popup/dist/index.css';
 import styled from "styled-components";
 import EventPage from "./pages/Event/eventpage";
+import Portfolio from "./pages/Portfolio/portfolio";
 
 const CopyRightModal = styled(Popup)`
     &-overlay {
@@ -46,6 +47,8 @@ function nameToPage(name) {
             return <MainPage />;
         case "rali":
             return <EventPage category={"rali"} event={"porto2023"}/>;
+        case "portfolio":
+            return <Portfolio />;
         default:
             return <MainPage />;
     }
@@ -78,7 +81,7 @@ function App() {
                         TransitionComponent={Zoom}
                         slotProps={IconsSlotProps}
                     >
-                        <p onClick={() => setPage("portofolio")}>
+                        <p onClick={() => setPage("portfolio")}>
                             <PhotoLibraryIcon className={style.navbarPagesIcon}/>
                         </p>
                     </Tooltip>

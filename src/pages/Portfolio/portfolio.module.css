@@ -1,0 +1,105 @@
+.tiltgrid {
+    overflow: hidden;
+}
+@media screen and (min-width: 720px) {
+    .tiltgrid {
+        margin-inline: clamp(1rem, 2.4761904762rem, 2rem);
+    }
+}
+.tiltgrid__container {
+    --skew-y: calc(var(--scroll-tilt, -7) * 1deg);
+    --easing: cubic-bezier(1, 0.45, 0.7, 1.05);
+    transform: skewY(var(--skew-y)) scale(1.05);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.25rem, 1.3571428571rem, 1rem);
+    transition: gap 0.3s ease;
+}
+@media screen and (min-width: 720px) {
+    .tiltgrid__container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+.tiltgrid__container:hover img {
+    filter: saturate(0);
+    transition: scale 0.8s, filter 1s;
+}
+.tiltgrid__container > div {
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0%, 100% 0, 0 0);
+    opacity: 0;
+    animation: tiltslide 1s forwards;
+}
+
+.tiltgrid__container > div img {
+    aspect-ratio: 1.7777777778;
+    min-width: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    pointer-events: none;
+    filter: saturate(1);
+    transform: skewY(calc(var(--skew-y) * -1));
+    scale: 1.4;
+    transition: scale 0.8s, filter 0.6s;
+}
+.tiltgrid__container > div:hover img {
+    scale: 1.5;
+    filter: saturate(1);
+    transition: scale 0.8s, filter 0.6s;
+}
+@keyframes tiltslide {
+    from {
+        opacity: 0;
+        clip-path: polygon(0 0, 100% 0%, 100% 0, 0 0);
+        filter: saturate(0);
+    }
+    to {
+        opacity: 1;
+        clip-path: polygon(0 0, 100% 1%, 100% 100%, 0% 100%);
+        filter: saturate(1);
+    }
+}
+.p-x {
+    padding-inline: 1.5em;
+}
+.hero {
+    padding-top: clamp(6rem, 11.9047619048rem, 10rem);
+    padding-bottom: clamp(2rem, 4.9523809524rem, 4rem);
+    /* position: sticky; */
+    top: 0;
+    transform-origin: 50% 0%;
+}
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.hero .container > * {
+    margin: 0;
+}
+.hero .container h1 {
+    font-size: clamp(1.5rem, 3.7142857143rem, 3rem);
+    line-height: 1.2;
+}
+.hero .container p {
+    margin-top: 0.5em;
+    font-size: clamp(0.875rem, 1.4285714286rem, 1.25rem);
+    color: #666;
+}
+.bottom {
+    /* min-height: 200vh; */
+    padding-block: clamp(2rem, 3.4761904762rem, 3rem);
+}
+.bottom .container {
+    text-align: center;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
