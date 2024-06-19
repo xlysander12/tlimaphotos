@@ -1,51 +1,7 @@
 import {Component} from "react";
 import style from "./eventpage.module.css";
-import Popup from "reactjs-popup";
-import styled from "styled-components";
-import CloseIcon from '@mui/icons-material/Close';
 import Loader from "../../components/Loader/loader";
-
-const ImagePopup = styled(Popup)`
-    &-overlay {
-        background-color: rgba(0, 0, 0, 0.85);
-    },
-    
-    &-content {
-        background-color: transparent;
-        border: none;
-        -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
-        width: fit-content;
-    }
-`;
-
-
-const DisplayedImage = ({src, onLoadCallback}) => {
-    return (
-        <ImagePopup
-            modal
-            trigger={
-            <figure>
-                <img
-                    src={src}
-                    alt={""}
-                    loading={"lazy"}
-                />
-            </figure>}
-        >
-            {close => (
-                <div style={{position: "relative", backgroundColor: "transparent", width: "fit-content", height: "fit-content"}}>
-                    <CloseIcon onClick={close} style={{position: "absolute", right: "2%", top: "2%", color: "white", cursor: "pointer", border: "1px solid white", borderRadius: "100px", backgroundColor: "#00000087"}}/>
-                    <img style={{objectFit: "cover", height: "80vh"}}
-                         src={src}
-                         alt={""}
-                         loading={"lazy"}
-                    />
-                </div>
-            )}
-        </ImagePopup>
-
-    );
-}
+import ImagePopup from "../../components/ImagePopup/image-popup";
 
 class EventPage extends Component {
     constructor(props) {
@@ -57,17 +13,13 @@ class EventPage extends Component {
         this.state = {
             loading: true,
             event_display_name: "",
-            number_of_photos: 0
+            number_of_photos: 0,
+            loaded_photos: 0
         }
 
-        this.updateLoadedPhotos = this.updateLoadedPhotos.bind(this);
+        this.handlePhotoLoaded = this.handlePhotoLoaded.bind(this);
     }
 
-    // Deprecated shit
-    updateLoadedPhotos() {
-        this.setState({loaded_images: this.state.loaded_images + 1});
-        console.log("Image loaded. Total loaded: " + this.state.loaded_images + 1);
-    }
 
     async componentDidMount() {
         // Get the display name of the event and number of photos
@@ -80,23 +32,57 @@ class EventPage extends Component {
             event_display_name: response.display,
             number_of_photos: response.quantity
         });
+    }
 
+    handlePhotoLoaded(event) {
+        console.log("A photo has been loaded");
+
+        this.setState((prevState) => {
+            return {
+                loaded_photos: prevState.loaded_photos + 1
+            }
+        });
+        console.log("State has been updated");
     }
 
     render() {
-        if (this.state.loading)
-            return <Loader />
-
         let images = [];
         for (let i = 1; i <= this.state.number_of_photos; i++) {
-            images.push(<DisplayedImage key={`image${i}`} src={`https://cdn.tlima.photos/${this.props.category}/${this.props.event}/${i}.jpg`} />);
+            const src = `https://cdn.tlima.photos/${this.props.category}/${this.props.event}/${i}.jpg`;
+
+            images.push(
+                <ImagePopup
+                    key={`image${i}`}
+                    trigger={
+                        <figure>
+                            <img
+                                onLoad={this.handlePhotoLoaded}
+                                src={src}
+                                alt={""}
+                                loading={"lazy"}
+                            />
+                        </figure>
+                    }
+                    src={src}
+                />
+            );
         }
+
+        console.log("Loaded photos: ", this.state.loaded_photos);
+        console.log("Number of photos: ", this.state.number_of_photos);
+
+        // const shouldLoaderDisplay = (this.state.loading || this.state.loaded_photos < 10);
+        const shouldLoaderDisplay = this.state.loading;
 
         return (
             <div style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px"}}>
                 <p style={{color: "white", fontSize: "40px", fontWeight: "bold", fontFamily: "acme, serif"}}>{this.state.event_display_name}</p>
 
-                <div className={style.gallery}>
+                <div className={style.loaderDiv} style={{display: `${shouldLoaderDisplay ? "flex": "none"}`}}>
+                    <Loader />
+                </div>
+
+                <div className={style.gallery} style={{display: `${shouldLoaderDisplay ? "none": "flex"}`}}>
                     {images.map((image) => (
                         image
                     ))}
