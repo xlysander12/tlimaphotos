@@ -3,6 +3,8 @@ import Popup from "reactjs-popup";
 import CloseIcon from "@mui/icons-material/Close";
 import {useState} from "react";
 import Loader from "../Loader/loader";
+import style from "./imagepopup.module.css";
+import PlaceIcon from "@mui/icons-material/Place";
 
 const StyledImagePopup = styled(Popup)`
     &-overlay {
@@ -20,14 +22,31 @@ const StyledImagePopup = styled(Popup)`
 `;
 
 
-const ImagePopup = ({trigger, src}) => {
-    const [isLoading, setIsLoading] = useState(false);
+const ImagePopup = ({trigger, src, loadLocation = false, category, imageId}) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [location, setLocation] = useState("");
+    const [coordinates, setCoordinates] = useState("");
+
+    // Function used to fetch the location of the photo
+    const fetchLocation = async () => {
+        // Fetch the location and coordinates of the photo
+        const response = await fetch(`https://cdn.tlima.photos/api/${category}/${imageId}/details`);
+
+        // If the response wasn't OK, don't show the data
+        if (!response.ok) return;
+
+        const data = await response.json();
+        setLocation(data.location);
+        setCoordinates(data.coordinates);
+    }
 
     return (
         <StyledImagePopup
             modal
             trigger={trigger}
-            onOpen={() => setIsLoading(true)}
+            onOpen={() => {
+                if (loadLocation) fetchLocation();
+            }}
         >
             {close => (
                 <div style={{
@@ -54,6 +73,23 @@ const ImagePopup = ({trigger, src}) => {
                          loading={"lazy"}
                          onLoad={() => setIsLoading(false)}
                     />
+
+                    <div className={style.photolocation} style={{display: loadLocation ? "block": "none"}}>
+                        <div style={{display: "flex", flexDirection: "column"}}>
+                            <PlaceIcon
+                                sx={{
+                                    position: "absolute",
+                                    bottom: "25px",
+                                    left: "-20px",
+                                    transform: "rotate(-35deg)",
+                                    color: "#F68338",
+                                }}
+                            />
+                        </div>
+                        <a target={"_blank"}
+                           href={coordinates}
+                           rel="noreferrer">{location}</a>
+                    </div>
                 </div>
             )}
         </StyledImagePopup>

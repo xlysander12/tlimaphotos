@@ -1,0 +1,21 @@
+.photolocation {
+    position: absolute;
+    bottom: 30px;
+    left: 100px;
+
+    text-align: start;
+    line-height: 1.5;
+}
+
+.photolocation a {
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    font-family: "Agbalumo", serif;
+    text-shadow: black 15px 15px 15px;
+    font-weight: bold;
+}
+
+.photolocation a:hover {
+    color: #717171;
+}

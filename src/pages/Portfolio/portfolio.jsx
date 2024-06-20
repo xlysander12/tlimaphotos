@@ -97,7 +97,8 @@ export default class Portfolio extends Component {
                     <div className={style.tiltgrid__container}>
                         {/*Iterate for the number of photos and display them*/}
                         {[...Array(this.state.numberOfImages).keys()].map(i => {
-                            const src = `https://cdn.tlima.photos/portofolio/${i + 1}.jpg`;
+                            const photoID = i + 1;
+                            const src = `https://cdn.tlima.photos/portofolio/${photoID}.jpg`;
 
                             return (
                                 <ImagePopup
@@ -108,6 +109,9 @@ export default class Portfolio extends Component {
                                             <img loading="lazy" src={src} alt=""/>
                                         </div>
                                     }
+                                    loadLocation
+                                    category={"portofolio"}
+                                    imageId={photoID}
                                 />
                             );
                         })}
