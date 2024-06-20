@@ -19,6 +19,8 @@
 }
 
 .navbarPages p {
+    position: relative;
+    display: block;
     width: 45px;
     height: 45px;
     margin: 20px auto 0 auto;
@@ -33,10 +35,63 @@
     scale: 1.5;
 }
 
+.navbarPages p {
+    transition: 500ms all ease-out;
+}
+
 .navbarPages p:hover {
-    background-color: #F68338;
-    color: white !important;
+    /*background-color: #F68338;*/
+    color: #F68338 !important;
     cursor: pointer;
+}
+
+.navbarPagesBorder::after, .navbarPagesBorder::before,
+.navbarPagesBorder2::after, .navbarPagesBorder2::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    background-color: #F68338;
+    transition: 500ms all ease-out;
+}
+
+.navbarPagesBorder::after {
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+}
+
+.navbarPagesBorder::before {
+    right: 0;
+    bottom: 0;
+    height: 0;
+    width: 1px;
+}
+
+.navbarPagesBorder2::after {
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 1px;
+}
+
+.navbarPagesBorder2::before {
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 1px;
+}
+
+.navbarPages p:hover .navbarPagesBorder::after,
+.navbarPages p:hover .navbarPagesBorder2::after {
+    width: 100%;
+    height: 1px;
+}
+
+.navbarPages p:hover .navbarPagesBorder::before,
+.navbarPages p:hover .navbarPagesBorder2::before {
+    height: 100%;
+    width: 1px;
 }
 
 .navbarSocials {

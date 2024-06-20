@@ -37,7 +37,9 @@ const IconsSlotProps = {
     tooltip: {
         sx: {
             backgroundColor: "#383838",
-            fontSize: "0.9rem"
+            fontSize: "1rem",
+            fontWeight: "bold",
+            fontFamily: "acme, sans"
         }
     }
 }
@@ -141,6 +143,9 @@ function App() {
                             setActiveEvent(null);
                         }}>
                             <HomeIcon className={style.navbarPagesIcon}/>
+
+                            <span className={style.navbarPagesBorder2}></span>
+                            <span className={style.navbarPagesBorder}></span>
                         </p>
                     </Tooltip>
 
@@ -156,6 +161,8 @@ function App() {
                             setActiveEvent(null);
                         }}>
                             <PhotoLibraryIcon className={style.navbarPagesIcon}/>
+                            <span className={style.navbarPagesBorder2}></span>
+                            <span className={style.navbarPagesBorder}></span>
                         </p>
                     </Tooltip>
 
@@ -186,6 +193,8 @@ function App() {
                             }
                         }}>
                             <DriveEtaIcon className={style.navbarPagesIcon}/>
+                            <span className={style.navbarPagesBorder2}></span>
+                            <span className={style.navbarPagesBorder}></span>
                         </p>
                     </Tooltip>
 
@@ -209,13 +218,15 @@ function App() {
                                 setActiveEvent(naturezaEvents[0].name);
                             } else { // If there's more, open the menu that will show the events
                                 // Set the anchor to this button
-                                setDesportoMenuAnchor(event.currentTarget);
+                                setNaturezaMenuAnchor(event.currentTarget);
 
                                 // Open the menu
                                 setNaturezaMenuOpen(true);
                             }
                         }}>
                             <LandscapeIcon className={style.navbarPagesIcon}/>
+                            <span className={style.navbarPagesBorder2}></span>
+                            <span className={style.navbarPagesBorder}></span>
                         </p>
                     </Tooltip>
 
@@ -246,15 +257,17 @@ function App() {
                             }
                         }}>
                             <SportsIcon className={style.navbarPagesIcon}/>
+                            <span className={style.navbarPagesBorder2}></span>
+                            <span className={style.navbarPagesBorder}></span>
                         </p>
                     </Tooltip>
                 </div>
 
                 <div className={style.navbarSocials}>
-                    <a href="https://www.facebook.com/profile.php?id=100093810021256" target="_blank" rel="noreferrer">
+                <a href="https://www.facebook.com/profile.php?id=100093810021256" target="_blank" rel="noreferrer">
                         <i className={"fab fa-facebook-f"}></i>
                     </a>
-                    <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                    <a href="https://www.instagram.com/t.lima.photo/" target="_blank" rel="noreferrer">
                         <i className={"fab fa-instagram"}></i>
                     </a>
                     <a href="mailto:geral@tlima.photos" target="_blank" rel="noreferrer">
@@ -303,6 +316,8 @@ function App() {
                                 setRaliMenuOpen(false);
                             }}
                             sx={{
+                                fontFamily: "acme, sans",
+
                                 "&:hover": {
                                     backgroundColor: "#383838"
                                 }
@@ -343,6 +358,8 @@ function App() {
                                 setNaturezaMenuOpen(false);
                             }}
                             sx={{
+                                fontFamily: "acme, sans",
+
                                 "&:hover": {
                                     backgroundColor: "#383838"
                                 }
@@ -383,6 +400,8 @@ function App() {
                                 setDesportoMenuOpen(false);
                             }}
                             sx={{
+                                fontFamily: "acme, sans",
+
                                 "&:hover": {
                                     backgroundColor: "#383838"
                                 }

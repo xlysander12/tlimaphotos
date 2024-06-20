@@ -20,7 +20,7 @@ function DisplayPhoto({displayId, src}) {
     return (
         <label className={style.Slide} htmlFor={`Slide${displayId}`} id={`Slide${displayId}`}>
             <div className={style.content}>
-                <img src={src} alt={""}
+                <img src={src} alt={""} loading={"lazy"}
                      style={{maxWidth: "100%", maxHeight: "100%", objectFit: "contain"}}/>
             </div>
 
