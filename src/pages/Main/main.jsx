@@ -49,10 +49,19 @@ class MainPage extends Component {
         super(props);
 
         this.state = {
-            number_of_photos: 2
+            number_of_photos: 0
         }
     }
 
+    async componentDidMount() {
+        // Get the number of images from the CDN
+        const response = await fetch("https://cdn.tlima.photos/api/main");
+        const data = await response.json();
+
+        this.setState({
+            number_of_photos: data.quantity,
+        });
+    }
 
     render() {
 
