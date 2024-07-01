@@ -18,10 +18,10 @@ class EventPage extends Component {
         }
 
         this.handlePhotoLoaded = this.handlePhotoLoaded.bind(this);
+        this.fetchEventData = this.fetchEventData.bind(this);
     }
 
-
-    async componentDidMount() {
+    async fetchEventData() {
         // Get the display name of the event and number of photos
         let response = await fetch(`https://cdn.tlima.photos/api/${this.props.category}/${this.props.event}`);
 
@@ -32,6 +32,17 @@ class EventPage extends Component {
             event_display_name: response.display,
             number_of_photos: response.quantity
         });
+    }
+
+
+    async componentDidMount() {
+        await this.fetchEventData();
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps.category !== this.props.category || prevProps.event !== this.props.event) {
+            await this.fetchEventData();
+        }
     }
 
     handlePhotoLoaded(event) {
@@ -56,7 +67,6 @@ class EventPage extends Component {
                     trigger={
                         <figure>
                             <img
-                                onLoad={this.handlePhotoLoaded}
                                 src={src}
                                 alt={""}
                                 loading={"lazy"}
@@ -67,9 +77,6 @@ class EventPage extends Component {
                 />
             );
         }
-
-        console.log("Loaded photos: ", this.state.loaded_photos);
-        console.log("Number of photos: ", this.state.number_of_photos);
 
         // const shouldLoaderDisplay = (this.state.loading || this.state.loaded_photos < 10);
         const shouldLoaderDisplay = this.state.loading;
